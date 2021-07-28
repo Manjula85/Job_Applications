@@ -1,0 +1,117 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: rgba(98, 79, 185, 0);
+  --secondary: #ffffff;
+  --grey: #333;
+  font-size: 62.5%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+header {
+  padding: 25px 15px;
+  border-bottom: 5px solid black;
+}
+
+header p {
+  margin: 5px 0 20px;
+  /* font-size: 2rem; */
+}
+
+p,
+li {
+  font-size: 1.6rem;
+}
+
+form {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+form input {
+  outline: none;
+  border: none;
+  padding: 12px;
+  width: 100%;
+  font-size: 2.2rem;
+  border: 2px solid black;
+  border-radius: 12px;
+}
+
+form .form-group {
+  margin: 10px 6px 10px 0;
+  flex: 1;
+}
+
+footer {
+  width: 100%;
+  font-size: 1.4rem;
+  padding: 20px;
+  border-top: 5px solid black;
+}
+
+.page-title {
+  margin-bottom: 5px;
+  margin-top: 0;
+  font-size: 2.5rem;
+}
+
+.page-content {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 25px auto;
+  width: 95%;
+}
+
+.task-list-wrapper {
+  flex: 1;
+  margin: 0 20px 30px 0;
+}
+
+.list-title {
+  font-size: 2rem;
+}
+
+.task-list {
+  list-style: none;
+  padding: 15px;
+  height: calc(100% - 50px);
+  border-radius: 12px;
+  border: 2px solid var(--grey);
+  box-shadow: 0 3px grey;
+}
+
+.task-item {
+  color: var(--grey);
+  padding: 15px 15px;
+  border: 2px solid var(--grey);
+  background: var(--tertiary);
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 3px grey;
+}
+
+.btn {
+  outline: none;
+  border: none;
+  display: inline-block;
+  padding: 10px 15px;
+  font-size: 1.2rem; 
+  border-radius: 12px;
+  position: relative;
+  top: -3px;
+  box-shadow: 0 3px grey;
+}
