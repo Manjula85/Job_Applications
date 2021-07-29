@@ -1,0 +1,23 @@
+{
+  "name": "Job_Applications_Management",
+  "version": "1.0.0",
+  "description": "Kanban board to track the jobs I have applied to",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Manjula85/Job_Applications_Management.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Manjula85/Job_Applications_Management/issues"
+  },
+  "homepage": "https://github.com/Manjula85/Job_Applications_Management#readme",
+  "dependencies": {
+    "bootstrap": "^5.0.2"
+  }
+}

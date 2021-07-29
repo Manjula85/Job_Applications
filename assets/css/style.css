@@ -3,8 +3,11 @@
 }
 
 :root {
-  --primary: rgba(98, 79, 185, 0);
-  --secondary: #ffffff;
+  --primary: #869c66;
+  --secondary: #ffca0b;
+  --tertiary:#ff9502;
+  --quaternary:#d43501;
+  --quinary:#8f5f36;
   --grey: #333;
   font-size: 62.5%;
 }
