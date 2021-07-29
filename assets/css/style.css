@@ -76,7 +76,7 @@ footer {
   width: 95%;
 }
 
-.task-list-wrapper {
+.job-list-wrapper {
   flex: 1;
   margin: 0 20px 30px 0;
 }
@@ -85,7 +85,7 @@ footer {
   font-size: 2rem;
 }
 
-.task-list {
+.job-list {
   list-style: none;
   padding: 15px;
   height: calc(100% - 50px);
@@ -94,7 +94,7 @@ footer {
   box-shadow: 0 3px grey;
 }
 
-.task-item {
+.job-item {
   color: var(--grey);
   padding: 15px 15px;
   border: 2px solid var(--grey);
