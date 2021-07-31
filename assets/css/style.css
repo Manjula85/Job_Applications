@@ -84,6 +84,7 @@ footer {
 
 .job-list-wrapper {
   flex: 1;
+  /* flex-basis: 100%;  Set it as such when you add @media section later*/
   margin: 0 20px 30px 0;
 }
 
