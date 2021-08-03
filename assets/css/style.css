@@ -111,6 +111,14 @@ footer {
   box-shadow: 0 3px grey;
 }
 
+.job-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 10px 0 5px 0;
+  justify-content: space-between;
+}
+
 .btn {
   outline: none;
   border: none;
@@ -120,5 +128,38 @@ footer {
   border-radius: 12px;
   position: relative;
   top: -3px;
+  box-shadow: 0 3px grey;
+}
+
+.edit-btn,
+.delete-btn {
+  font-size: 1.5rem;
+  /*padding: 5px 7px;
+  margin: 3px;*/
+  background: var(--secondary);
+  /*color: #fff;*/
+}
+
+.select-dropdown,
+.select-status {
+  display: block;
+  font-size: 1.5rem;
+
+  border-radius: 12px;
+  padding: 10px 15px;
+  margin: 0;
+  border: 2px solid var(--grey);
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: var(--secondary);
+
+  background-image: url("../images/select-arrow.svg");
+  background-repeat: no-repeat, repeat;
+  background-position: right 0.7em top 50%, 0 0;
+  background-size: 0.65em auto, 100%;
+
+  outline: none;
+  border: none;
   box-shadow: 0 3px grey;
 }
