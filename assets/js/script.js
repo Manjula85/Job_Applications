@@ -16,8 +16,10 @@ var createJobHandler = function () {
   jobItemEl.setAttribute("data-job-id", jobIdCounter);
 
   var jobInfoEl = document.createElement("div");
-  jobInfoEl.innerHTML = "<li class='job-item'> Date posted: " + date_posted.value +"<br /> Job position: " 
-  + job_position.value + "<br /> Job link: " + job_link.value + "</li>";  
+  jobInfoEl.innerHTML = "<li class='job-item'> Date posted: " 
+  + "<span id='date'>" + date_posted.value + "</span>" + "<br /> Job position: " 
+  + "<span id='position'>" + job_position.value + "</span>" + "<br /> Job link: " 
+  + "<span id='link'>" + job_link.value + "</span>" + "</li>";  
 
   jobItemEl.appendChild(jobInfoEl);
 
@@ -80,32 +82,41 @@ var deleteJob = function(jobId){
 }
 
 var editJob = function(jobId){
+  console.log("editing job#" + jobId);
+
   //get job list item element
-  var jobSelected = document.querySelector(".task-item[data-task-id='"+jobId+"']");
+  var jobSelected = document.querySelector(".job-item[data-job-id='"+jobId+"']");
 
   //get content from posted date, job link and job position
-  var job
+  var datePostedModal = jobSelected.querySelector("#date").textContent;
+  console.log(datePostedModal);
+
+  var jobPositionModal = jobSelected.querySelector("#position").textContent;
+  console.log(jobPositionModal);
+
+  var jobLinkModal = jobSelected.querySelector("#link").textContent;
+  console.log(jobLinkModal);
 }
 
 var jobButtonHandler = function(event){ 
-  console.log(event.target);
+  //console.log(event.target);
 
-  if (event.target.matches(".delete-btn")){
-    //get target element from event
-    var targetEl = event.target;
-    
-    //edit button was clicked
-    if(targetEl.matches(".edit-btn")){
+  //get target element from event
+  var targetEl = event.target;
+
+  //edit button was clicked
+  if(targetEl.matches(".edit-btn")){
+    var jobId = targetEl.getAttribute('data-job-id');
+    //console.log('edit button things');
+    editJob(jobId);
+  };
+
+  //delete button was clicked
+  if (targetEl.matches(".delete-btn")){        
       var jobId = targetEl.getAttribute('data-job-id');
-      editJob(jobId);
-    }
-    
-    //delete button was clicked
-    else if (targetEl.getAttribute('.delete-btn')){
-      var jobId = targetEl.getAttribute('data-job-id');
-      deleteJob(jobId);
-    }
-  }
+      deleteJob(jobId);    
+  };
+
 };
 
 buttonEl.addEventListener("click", createJobHandler);
