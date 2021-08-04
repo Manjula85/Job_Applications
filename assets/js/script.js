@@ -44,6 +44,17 @@ var createJobActions = function(jobId){
   editButtonEl.className = "btn edit-btn";
   editButtonEl.setAttribute('data-job-id', jobId);
 
+  //Reactivating the Modal too
+  // data-bs-toggle="modal"
+  editButtonEl.setAttribute('data-bs-toggle', "modal");
+  // data-bs-target="#staticBackdrop"
+  editButtonEl.setAttribute('data-bs-target', "#staticBackdrop");  
+
+  //Temporary reset step
+  date_posted.value = "";
+  job_position.value = "";
+  job_link.value = "";
+
   actionContainerEl.appendChild(editButtonEl);
 
   //create delete button
@@ -81,9 +92,7 @@ var deleteJob = function(jobId){
   jobSelected.remove();
 }
 
-var editJob = function(jobId){
-  console.log("editing job#" + jobId);
-
+var editJob = function(jobId){  
   //get job list item element
   var jobSelected = document.querySelector(".job-item[data-job-id='"+jobId+"']");
 
@@ -99,7 +108,6 @@ var editJob = function(jobId){
 }
 
 var jobButtonHandler = function(event){ 
-  //console.log(event.target);
 
   //get target element from event
   var targetEl = event.target;
@@ -118,6 +126,11 @@ var jobButtonHandler = function(event){
   };
 
 };
+
+$('#modalForm').on('hidden.bs.modal', function () {
+  // $(this).find('form').trigger('reset');
+  alert('modal closed now');
+})
 
 buttonEl.addEventListener("click", createJobHandler);
 pageContentEl.addEventListener("click", jobButtonHandler);
