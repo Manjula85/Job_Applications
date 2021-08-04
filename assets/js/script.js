@@ -1,7 +1,7 @@
 var jobsToApplyEl = document.querySelector("#jobs-in-review");
 var buttonEl = document.querySelector("#add-job");
 var jobIdCounter = 0;
-var pageContentEl = document.querySelector('#page-content');
+var pageContentEl = document.querySelector("#page-content");
 
 //Data collected from the Modal
 var date_posted = document.querySelector("#date_posted");
@@ -16,10 +16,20 @@ var createJobHandler = function () {
   jobItemEl.setAttribute("data-job-id", jobIdCounter);
 
   var jobInfoEl = document.createElement("div");
-  jobInfoEl.innerHTML = "<li class='job-item'> Date posted: " 
-  + "<span id='date'>" + date_posted.value + "</span>" + "<br /> Job position: " 
-  + "<span id='position'>" + job_position.value + "</span>" + "<br /> Job link: " 
-  + "<span id='link'>" + job_link.value + "</span>" + "</li>";  
+  jobInfoEl.innerHTML =
+    "<li class='job-item'> Date posted: " +
+    "<span id='date'>" +
+    date_posted.value +
+    "</span>" +
+    "<br /> Job position: " +
+    "<span id='position'>" +
+    job_position.value +
+    "</span>" +
+    "<br /> Job link: " +
+    "<span id='link'>" +
+    job_link.value +
+    "</span>" +
+    "</li>";
 
   jobItemEl.appendChild(jobInfoEl);
 
@@ -34,21 +44,21 @@ var createJobHandler = function () {
   jobIdCounter++;
 };
 
-var createJobActions = function(jobId){
-  var actionContainerEl = document.createElement('div');
+var createJobActions = function (jobId) {
+  var actionContainerEl = document.createElement("div");
   actionContainerEl.className = "job-actions";
 
   //create edit button
-  var editButtonEl = document.createElement('button');
-  editButtonEl.textContent = 'Edit';
+  var editButtonEl = document.createElement("button");
+  editButtonEl.textContent = "Edit";
   editButtonEl.className = "btn edit-btn";
-  editButtonEl.setAttribute('data-job-id', jobId);
+  editButtonEl.setAttribute("data-job-id", jobId);
 
   //Reactivating the Modal too
   // data-bs-toggle="modal"
-  editButtonEl.setAttribute('data-bs-toggle', "modal");
+  editButtonEl.setAttribute("data-bs-toggle", "modal");
   // data-bs-target="#staticBackdrop"
-  editButtonEl.setAttribute('data-bs-target', "#staticBackdrop");  
+  editButtonEl.setAttribute("data-bs-target", "#staticBackdrop");
 
   //Temporary reset step
   date_posted.value = "";
@@ -58,28 +68,28 @@ var createJobActions = function(jobId){
   actionContainerEl.appendChild(editButtonEl);
 
   //create delete button
-  var deleteButtonEl = document.createElement('button');
-  deleteButtonEl.textContent = 'Delete';
-  deleteButtonEl.className = 'btn delete-btn';
-  deleteButtonEl.setAttribute('data-job-id', jobId);
+  var deleteButtonEl = document.createElement("button");
+  deleteButtonEl.textContent = "Delete";
+  deleteButtonEl.className = "btn delete-btn";
+  deleteButtonEl.setAttribute("data-job-id", jobId);
 
   actionContainerEl.appendChild(deleteButtonEl);
 
-  var statusSelectEl = document.createElement('select');
-  statusSelectEl.className = 'select-status';
-  statusSelectEl.setAttribute('name', 'status-change');
-  statusSelectEl.setAttribute('data-job-id', jobId);
-  
+  var statusSelectEl = document.createElement("select");
+  statusSelectEl.className = "select-status";
+  statusSelectEl.setAttribute("name", "status-change");
+  statusSelectEl.setAttribute("data-job-id", jobId);
+
   actionContainerEl.appendChild(statusSelectEl);
 
-  var statusChoices = ['In review', 'Jobs to Apply to', 'Already applied'];
+  var statusChoices = ["In review", "Jobs to Apply to", "Already applied"];
 
-  for(var i=0; i<statusChoices.length; i++){
+  for (var i = 0; i < statusChoices.length; i++) {
     //create option element
-    var statusOptionEl = document.createElement('option');
+    var statusOptionEl = document.createElement("option");
     statusOptionEl.textContent = statusChoices[i];
-    statusOptionEl.setAttribute('value', statusChoices[i]);
-    
+    statusOptionEl.setAttribute("value", statusChoices[i]);
+
     //append to select
     statusSelectEl.appendChild(statusOptionEl);
   }
@@ -87,14 +97,18 @@ var createJobActions = function(jobId){
   return actionContainerEl;
 };
 
-var deleteJob = function(jobId){
-  var jobSelected = document.querySelector(".job-item[data-job-id='" + jobId + "']");
+var deleteJob = function (jobId) {
+  var jobSelected = document.querySelector(
+    ".job-item[data-job-id='" + jobId + "']"
+  );
   jobSelected.remove();
-}
+};
 
-var editJob = function(jobId){  
+var editJob = function (jobId) {
   //get job list item element
-  var jobSelected = document.querySelector(".job-item[data-job-id='"+jobId+"']");
+  var jobSelected = document.querySelector(
+    ".job-item[data-job-id='" + jobId + "']"
+  );
 
   //get content from posted date, job link and job position
   var datePostedModal = jobSelected.querySelector("#date").textContent;
@@ -105,32 +119,31 @@ var editJob = function(jobId){
 
   var jobLinkModal = jobSelected.querySelector("#link").textContent;
   console.log(jobLinkModal);
-}
+};
 
-var jobButtonHandler = function(event){ 
-
+var jobButtonHandler = function (event) {
   //get target element from event
   var targetEl = event.target;
 
   //edit button was clicked
-  if(targetEl.matches(".edit-btn")){
-    var jobId = targetEl.getAttribute('data-job-id');
+  if (targetEl.matches(".edit-btn")) {
+    var jobId = targetEl.getAttribute("data-job-id");
     //console.log('edit button things');
     editJob(jobId);
-  };
+  }
 
   //delete button was clicked
-  if (targetEl.matches(".delete-btn")){        
-      var jobId = targetEl.getAttribute('data-job-id');
-      deleteJob(jobId);    
-  };
-
+  if (targetEl.matches(".delete-btn")) {
+    var jobId = targetEl.getAttribute("data-job-id");
+    deleteJob(jobId);
+  }
 };
 
-$('#modalForm').on('hidden.bs.modal', function () {
-  // $(this).find('form').trigger('reset');
-  alert('modal closed now');
-})
+$(function () {
+  $(".modal").on("hidden.bs.modal", function () {
+    $(this).find('form').trigger('reset');
+  });
+});
 
 buttonEl.addEventListener("click", createJobHandler);
 pageContentEl.addEventListener("click", jobButtonHandler);
