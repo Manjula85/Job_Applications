@@ -2,6 +2,7 @@ var jobsToApplyEl = document.querySelector("#jobs-in-review");
 var buttonEl = document.querySelector("#add-job");
 var jobIdCounter = 0;
 var pageContentEl = document.querySelector("#page-content");
+var formEl = document.querySelector("#modalForm");
 
 //Data collected from the Modal
 var date_posted = document.querySelector("#date_posted");
@@ -60,11 +61,6 @@ var createJobActions = function (jobId) {
   // data-bs-target="#staticBackdrop"
   editButtonEl.setAttribute("data-bs-target", "#staticBackdrop");
 
-  //Temporary reset step
-  date_posted.value = "";
-  job_position.value = "";
-  job_link.value = "";
-
   actionContainerEl.appendChild(editButtonEl);
 
   //create delete button
@@ -110,15 +106,19 @@ var editJob = function (jobId) {
     ".job-item[data-job-id='" + jobId + "']"
   );
 
+  formEl.setAttribute("data-job-id", jobId);
+
   //get content from posted date, job link and job position
   var datePostedModal = jobSelected.querySelector("#date").textContent;
-  console.log(datePostedModal);
+  date_posted.value = datePostedModal;
 
   var jobPositionModal = jobSelected.querySelector("#position").textContent;
-  console.log(jobPositionModal);
+  job_position.value = jobPositionModal;
 
   var jobLinkModal = jobSelected.querySelector("#link").textContent;
-  console.log(jobLinkModal);
+  job_link.value = jobLinkModal;
+
+  document.querySelector('#add-job').textContent = "Edit post";
 };
 
 var jobButtonHandler = function (event) {
@@ -141,7 +141,7 @@ var jobButtonHandler = function (event) {
 
 $(function () {
   $(".modal").on("hidden.bs.modal", function () {
-    $(this).find('form').trigger('reset');
+    $(this).find("form").trigger("reset");
   });
 });
 
