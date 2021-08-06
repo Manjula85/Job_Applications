@@ -7,15 +7,16 @@ var jobIdCounter = 0;
 var pageContentEl = document.querySelector("#page-content");
 var formEl = document.querySelector("#modalForm");
 
-
 //Data collected from the Modal
 var date_posted = document.querySelector("#date_posted");
 var job_position = document.querySelector("#job_position");
 var job_link = document.querySelector("#job_link");
 
-var completeEditJob = function(date_posted, job_position, job_link, jobId){
+var completeEditJob = function (date_posted, job_position, job_link, jobId) {
   //find the matching task list item
-  var jobSelected = document.querySelector(".job-item[data-job-id='"+ jobId + "']");
+  var jobSelected = document.querySelector(
+    ".job-item[data-job-id='" + jobId + "']"
+  );
 
   //set new values
   jobSelected.querySelector("#date").textContent = date_posted.value;
@@ -24,11 +25,14 @@ var completeEditJob = function(date_posted, job_position, job_link, jobId){
 
   formEl.removeAttribute("data-job-id");
   document.querySelector("#add-job").textContent = "Save";
-}
+};
 
 var createJobHandler = function () {
   var jobItemEl = document.createElement("li");
   jobItemEl.className = "job-item";
+
+  //adding draggable
+  jobItemEl.setAttribute("draggable", "true");
 
   //Checking if we are editing or creating a new job post
   var isEdit = formEl.hasAttribute("data-job-id");
@@ -176,25 +180,62 @@ $(function () {
   });
 });
 
-var jobStatusChangeHandler = function(event){
+var jobStatusChangeHandler = function (event) {
   //get the job id
   var jobId = event.target.getAttribute("data-job-id");
-  
+
   //get the currently selected option's value and convert to lowercase
   var statusValue = event.target.value.toLowerCase();
 
   //find the parent job item element based on the id
-  var jobSelected = document.querySelector(".job-item[data-job-id='"+jobId+"']");
+  var jobSelected = document.querySelector(
+    ".job-item[data-job-id='" + jobId + "']"
+  );
 
-  if(statusValue === "in review"){
+  if (statusValue === "in review") {
     jobsInReviewEl.appendChild(jobSelected);
-  } else if(statusValue === "jobs to apply to"){
+  } else if (statusValue === "jobs to apply to") {
     jobsToApplyToEl.appendChild(jobSelected);
-  } else if(statusValue === "already applied to"){
+  } else if (statusValue === "already applied to") {
     jobsAlreadyAppliedToEl.appendChild(jobSelected);
-  };
+  }
 };
+
+var dragJobHandler = function (event) {
+  var jobId = event.target.getAttribute("data-job-id");
+
+  //storing it here
+  event.dataTransfer.setData("text/plain", jobId);
+
+  //to verify the data was stored
+  var getId = event.dataTransfer.getData("text/plain");
+  console.log("getId: ", getId, typeof getId);
+};
+
+var dropZoneDragHandler = function (event) {
+  var jobListEl = event.target.closest(".job-list");
+  if (jobListEl) {
+    event.preventDefault();
+    //console.dir(jobListEl);
+  }
+};
+
+var dropJobHandler = function(event){
+  var id = event.dataTransfer.getData("text/plain");
+  var draggableElement = document.querySelector("[data-job-id='"+id+"']");
+
+  var dropZoneEl = event.target.closest(".job-list");
+  var statusType = dropZoneEl.id;
+
+  var statusSelectEl = draggableElement.querySelector("select[name='status-change']");
+  console.log(statusSelectEl);
+  console.dir(statusSelectEl);
+}
 
 buttonEl.addEventListener("click", createJobHandler);
 pageContentEl.addEventListener("click", jobButtonHandler);
 pageContentEl.addEventListener("change", jobStatusChangeHandler);
+
+pageContentEl.addEventListener("dragstart", dragJobHandler);
+pageContentEl.addEventListener("dragover", dropZoneDragHandler);
+pageContentEl.addEventListener("drop", dropJobHandler);
