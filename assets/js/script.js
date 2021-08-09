@@ -216,7 +216,8 @@ var dropZoneDragHandler = function (event) {
   var jobListEl = event.target.closest(".job-list");
   if (jobListEl) {
     event.preventDefault();
-    //console.dir(jobListEl);
+    
+    jobListEl.setAttribute("style", "background: #ffb54f; border-style: dashed;");
   }
 };
 
@@ -228,9 +229,27 @@ var dropJobHandler = function(event){
   var statusType = dropZoneEl.id;
 
   var statusSelectEl = draggableElement.querySelector("select[name='status-change']");
-  console.log(statusSelectEl);
-  console.dir(statusSelectEl);
-}
+
+  if(statusType === "In review"){
+    statusSelectEl.selectedIndex = 0;
+  } else  if(statusType === "Jobs to Apply to"){
+    statusSelectEl.selectedIndex = 1;
+  } else if(statusType === "Already applied to"){
+    statusSelectEl.selectedIndex = 2;
+  };
+
+  //remove the drag colouring
+  dropZoneEl.removeAttribute("style");
+
+  dropZoneEl.appendChild(draggableElement);
+};
+
+var dragLeaveHandler = function (event){
+  var jobListEl = event.target.closest(".job-list");
+  if (jobListEl){
+    jobListEl.removeAttribute("style");
+  }
+};
 
 buttonEl.addEventListener("click", createJobHandler);
 pageContentEl.addEventListener("click", jobButtonHandler);
@@ -239,3 +258,4 @@ pageContentEl.addEventListener("change", jobStatusChangeHandler);
 pageContentEl.addEventListener("dragstart", dragJobHandler);
 pageContentEl.addEventListener("dragover", dropZoneDragHandler);
 pageContentEl.addEventListener("drop", dropJobHandler);
+pageContentEl.addEventListener("dragleave", dragLeaveHandler);
