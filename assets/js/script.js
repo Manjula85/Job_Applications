@@ -98,6 +98,10 @@ var createJobHandler = function () {
     //adding the innerHTML string with data
     jobItemEl.appendChild(jobInfoEl);
 
+    //adding 'id' to jobDataObj
+    jobDataObj.id = jobIdCounter;
+    jobs.push(jobDataObj);
+
     //adding the edit and delete buttons in
     var jobActionsEl = createJobActions(jobIdCounter);
     jobItemEl.appendChild(jobActionsEl);
@@ -183,6 +187,15 @@ var editJob = function (jobId) {
 
   var jobLinkModal = jobSelected.querySelector("#link").textContent;
   jobDataObj.job_link.value = jobLinkModal;
+
+  //loop through the job array and add new content from the jobDataObj
+  for(var i=0; i<jobs.length; i++){
+    if(jobs[i].id === parseInt(jobId)){
+      jobs[i].date_posted = datePostedModal;
+      jobs[i].job_position = jobPositionModal;
+      jobs[i].job_link = jobLinkModal;
+    }
+  }
 
   document.querySelector("#add-job").textContent = "Edit post";
 };
