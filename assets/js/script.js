@@ -14,6 +14,8 @@ var job_link = document.querySelector("#job_link");
 
 //Data storage
 var jobs = [];
+//Where data is stored
+var jobDataObj;
 
 var completeEditJob = function (jobDataObj, jobId) {
   //find the matching task list item
@@ -27,6 +29,15 @@ var completeEditJob = function (jobDataObj, jobId) {
     jobDataObj.job_position.value;
   jobSelected.querySelector("#link").textContent = jobDataObj.job_link.value;
 
+  // loop through jobs array and job object with new content
+  for (var i = 0; i < jobs, length; i++) {
+    if (jobs[i].id === parseInt(jobId)) {
+      jobs[i].date_posted = date_posted;
+      jobs[i].job_position = job_position;
+      jobs[i].job_link = job_link;
+    }
+  }
+
   formEl.removeAttribute("data-job-id");
   document.querySelector("#add-job").textContent = "Save";
 };
@@ -36,16 +47,21 @@ var createJobHandler = function () {
   jobItemEl.className = "job-item";
 
   //setting the collected data to an Obj
-  var jobDataObj = {
+  jobDataObj = {
     date_posted: date_posted,
     job_position: job_position,
     job_link: job_link,
     status: "In review",
   };
-  
+
   // testing
   console.log(jobDataObj);
   console.dir(jobDataObj.status);
+
+  //get the id counter in as well
+  jobDataObj.id = jobIdCounter;
+  // get the data into the array
+  jobs.push(jobDataObj);
 
   //adding draggable
   jobItemEl.setAttribute("draggable", "true");
@@ -208,13 +224,22 @@ var jobStatusChangeHandler = function (event) {
     ".job-item[data-job-id='" + jobId + "']"
   );
 
-  if (statusValue === "in review") {
+  if (statusValue === "jobs-in-review") {
     jobsInReviewEl.appendChild(jobSelected);
-  } else if (statusValue === "jobs to apply to") {
+  } else if (statusValue === "jobs-to-apply-to") {
     jobsToApplyToEl.appendChild(jobSelected);
-  } else if (statusValue === "already applied to") {
+  } else if (statusValue === "jobs-already-applied-to") {
     jobsAlreadyAppliedToEl.appendChild(jobSelected);
   }
+
+  // update job's in jabs array
+  for (var i = 0; i < jobs.length; i++) {
+    if (jobs[i].id === parseInt(jobId)) {
+      jobs[i].status = statusValue;
+    }
+  }
+
+  console.log('in jobstatuschangehandler(): ',jobs);
 };
 
 var dragJobHandler = function (event) {
@@ -250,16 +275,25 @@ var dropJobHandler = function (event) {
     "select[name='status-change']"
   );
 
-  if (statusType === "In review") {
+  if (statusType === "jobs-in-review") {
     statusSelectEl.selectedIndex = 0;
-  } else if (statusType === "Jobs to Apply to") {
+  } else if (statusType === "jobs-to-apply-to") {
     statusSelectEl.selectedIndex = 1;
-  } else if (statusType === "Already applied to") {
+  } else if (statusType === "jobs-already-applied-to") {
     statusSelectEl.selectedIndex = 2;
   }
 
   //remove the drag colouring
   dropZoneEl.removeAttribute("style");
+
+  // loop through jobs array to find and update the updated job's status
+  for (var i = 0; i < jobs.length; i++) {
+    if (jobs[i].id === parseInt(id)) {
+      jobs[i].status = statusSelectEl.value.toLowerCase();
+    }
+  }
+
+  console.log('What is being saved here? ', statusSelectEl.value.toLowerCase());
 
   dropZoneEl.appendChild(draggableElement);
 };
