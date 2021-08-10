@@ -40,28 +40,13 @@ var completeEditJob = function (jobDataObj, jobId) {
 
   formEl.removeAttribute("data-job-id");
   document.querySelector("#add-job").textContent = "Save";
+
+  saveJobs();
 };
 
 var createJobHandler = function () {
   var jobItemEl = document.createElement("li");
   jobItemEl.className = "job-item";
-
-  //setting the collected data to an Obj
-  jobDataObj = {
-    date_posted: date_posted,
-    job_position: job_position,
-    job_link: job_link,
-    status: "In review",
-  };
-
-  // testing
-  console.log(jobDataObj);
-  console.dir(jobDataObj.status);
-
-  //get the id counter in as well
-  jobDataObj.id = jobIdCounter;
-  // get the data into the array
-  jobs.push(jobDataObj);
 
   //adding draggable
   jobItemEl.setAttribute("draggable", "true");
@@ -75,7 +60,25 @@ var createJobHandler = function () {
     completeEditJob(jobDataObj, jobId);
   }
   //no data attribute, so create object as normal and pass data
-  else {
+  else {  //This is if it's a new Post
+
+    //setting the collected data to an Obj
+    jobDataObj = {
+      date_posted: date_posted,
+      job_position: job_position,
+      job_link: job_link,
+      status: "In review",
+    };
+
+    // testing
+    console.log(jobDataObj);
+    console.dir(jobDataObj.status);
+
+    //get the id counter in as well
+    jobDataObj.id = jobIdCounter;
+    // get the data into the array
+    jobs.push(jobDataObj);
+
     //add task id as a custom attribute
     jobItemEl.setAttribute("data-job-id", jobIdCounter);
 
@@ -111,6 +114,9 @@ var createJobHandler = function () {
 
     //increase job counter for next unique id
     jobIdCounter++;
+
+    // saving the edited part
+    saveJobs();
   }
 };
 
@@ -172,15 +178,17 @@ var deleteJob = function (jobId) {
   var updatedJobArr = [];
 
   //loop through current jobs
-  for (var i=0; i< jobs.length; i++){
+  for (var i = 0; i < jobs.length; i++) {
     //if jobs[i].id doesn't match the value of taskId, let's keep that job and push it into the new array
-    if(jobs[i] !== parseInt(jobId)){
+    if (jobs[i] !== parseInt(jobId)) {
       updatedJobArr.push(jobs[i]);
     }
   }
 
   //reassign tasks array to be the same as the updatedJobArr
   jobs = updatedJobArr;
+
+  saveJobs();
 };
 
 var editJob = function (jobId) {
@@ -203,15 +211,21 @@ var editJob = function (jobId) {
   jobDataObj.job_link.value = jobLinkModal;
 
   //loop through the job array and add new content from the jobDataObj
-  for(var i=0; i<jobs.length; i++){
-    if(jobs[i].id === parseInt(jobId)){
-      jobs[i].date_posted = datePostedModal;
-      jobs[i].job_position = jobPositionModal;
-      jobs[i].job_link = jobLinkModal;
+  for (var i = 0; i < jobs.length; i++) {
+    if (jobs[i].id === parseInt(jobId)) {
+      jobs[i].date_posted = jobDataObj.date_posted.value;
+      jobs[i].job_position = jobDataObj.job_position.value;
+      jobs[i].job_link = jobDataObj.job_link.value;
+      /* Extra */
+      //jobs[i].id = parseInt(jobId);
     }
   }
 
+  console.log("Jobs soon after editing: ", jobs);
+
   document.querySelector("#add-job").textContent = "Edit post";
+
+  saveJobs();
 };
 
 var jobButtonHandler = function (event) {
@@ -266,7 +280,9 @@ var jobStatusChangeHandler = function (event) {
     }
   }
 
-  console.log('in jobstatuschangehandler(): ',jobs);
+  console.log("in jobstatuschangehandler(): ", jobs);
+
+  saveJobs();
 };
 
 var dragJobHandler = function (event) {
@@ -289,6 +305,8 @@ var dropZoneDragHandler = function (event) {
       "background: #ffb54f; border-style: dashed;"
     );
   }
+
+  saveJobs();
 };
 
 var dropJobHandler = function (event) {
@@ -320,9 +338,11 @@ var dropJobHandler = function (event) {
     }
   }
 
-  console.log('What is being saved here? ', statusSelectEl.value.toLowerCase());
+  console.log("What is being saved here? ", statusSelectEl.value.toLowerCase());
 
   dropZoneEl.appendChild(draggableElement);
+
+  saveJobs();
 };
 
 var dragLeaveHandler = function (event) {
@@ -330,6 +350,10 @@ var dragLeaveHandler = function (event) {
   if (jobListEl) {
     jobListEl.removeAttribute("style");
   }
+};
+
+var saveJobs = function () {
+  localStorage.setItem("jobs", JSON.stringify(jobs));
 };
 
 buttonEl.addEventListener("click", createJobHandler);
