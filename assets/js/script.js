@@ -167,6 +167,20 @@ var deleteJob = function (jobId) {
     ".job-item[data-job-id='" + jobId + "']"
   );
   jobSelected.remove();
+
+  //A new array to update list of tasks
+  var updatedJobArr = [];
+
+  //loop through current jobs
+  for (var i=0; i< jobs.length; i++){
+    //if jobs[i].id doesn't match the value of taskId, let's keep that job and push it into the new array
+    if(jobs[i] !== parseInt(jobId)){
+      updatedJobArr.push(jobs[i]);
+    }
+  }
+
+  //reassign tasks array to be the same as the updatedJobArr
+  jobs = updatedJobArr;
 };
 
 var editJob = function (jobId) {
