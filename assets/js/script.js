@@ -60,7 +60,8 @@ var createJobHandler = function () {
     completeEditJob(jobDataObj, jobId);
   }
   //no data attribute, so create object as normal and pass data
-  else {  //This is if it's a new Post
+  else {
+    //This is if it's a new Post
 
     //setting the collected data to an Obj
     jobDataObj = {
@@ -73,11 +74,6 @@ var createJobHandler = function () {
     // testing
     console.log(jobDataObj);
     console.dir(jobDataObj.status);
-
-    //get the id counter in as well
-    jobDataObj.id = jobIdCounter;
-    // get the data into the array
-    jobs.push(jobDataObj);
 
     //add task id as a custom attribute
     jobItemEl.setAttribute("data-job-id", jobIdCounter);
@@ -103,6 +99,7 @@ var createJobHandler = function () {
 
     //adding 'id' to jobDataObj
     jobDataObj.id = jobIdCounter;
+    // get the data into the array
     jobs.push(jobDataObj);
 
     //adding the edit and delete buttons in
@@ -353,6 +350,7 @@ var dragLeaveHandler = function (event) {
 };
 
 var saveJobs = function () {
+  console.log(jobs);
   localStorage.setItem("jobs", JSON.stringify(jobs));
 };
 
