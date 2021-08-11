@@ -65,9 +65,9 @@ var createJobHandler = function () {
 
     //setting the collected data to an Obj
     jobDataObj = {
-      date_posted: date_posted,
-      job_position: job_position,
-      job_link: job_link,
+      date_posted: date_posted.value,
+      job_position: job_position.value,
+      job_link: job_link.value,
       status: "In review",
     };
 
@@ -82,15 +82,15 @@ var createJobHandler = function () {
     jobInfoEl.innerHTML =
       "<li class='job-item'> Date posted: " +
       "<span id='date'>" +
-      jobDataObj.date_posted.value +
+      jobDataObj.date_posted +
       "</span>" +
       "<br /> Job position: " +
       "<span id='position'>" +
-      jobDataObj.job_position.value +
+      jobDataObj.job_position +
       "</span>" +
       "<br /> Job link: " +
       "<span id='link'>" +
-      jobDataObj.job_link.value +
+      jobDataObj.job_link +
       "</span>" +
       "</li>";
 
@@ -350,7 +350,6 @@ var dragLeaveHandler = function (event) {
 };
 
 var saveJobs = function () {
-  console.log(jobs);
   localStorage.setItem("jobs", JSON.stringify(jobs));
 };
 
