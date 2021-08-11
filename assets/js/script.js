@@ -17,6 +17,7 @@ var jobs = [];
 //Where data is stored
 var jobDataObj;
 
+//If the post is being editted (so not new) - update
 var completeEditJob = function (jobDataObj, jobId) {
   //find the matching task list item
   var jobSelected = document.querySelector(
@@ -190,6 +191,7 @@ var deleteJob = function (jobId) {
   saveJobs();
 };
 
+//Modal edit
 var editJob = function (jobId) {
   //get job list item element
   var jobSelected = document.querySelector(
@@ -264,11 +266,11 @@ var jobStatusChangeHandler = function (event) {
     ".job-item[data-job-id='" + jobId + "']"
   );
 
-  if (statusValue === "jobs-in-review") {
+  if (statusValue === "in review") {
     jobsInReviewEl.appendChild(jobSelected);
-  } else if (statusValue === "jobs-to-apply-to") {
+  } else if (statusValue === "jobs to apply to") {
     jobsToApplyToEl.appendChild(jobSelected);
-  } else if (statusValue === "jobs-already-applied-to") {
+  } else if (statusValue === "already applied to") {
     jobsAlreadyAppliedToEl.appendChild(jobSelected);
   }
 
