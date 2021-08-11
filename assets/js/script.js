@@ -17,7 +17,7 @@ var jobs = [];
 //Where data is stored
 var jobDataObj;
 
-//If the post is being editted (so not new) - update
+// MODAL EDIT POST If the post is being editted (so not new) - update
 var completeEditJob = function (jobDataObj, jobId) {
   //find the matching task list item
   var jobSelected = document.querySelector(
@@ -25,10 +25,10 @@ var completeEditJob = function (jobDataObj, jobId) {
   );
 
   //set new values
-  jobSelected.querySelector("#date").textContent = jobDataObj.date_posted.value;
+  jobSelected.querySelector("#date").textContent = jobDataObj.date_posted;
   jobSelected.querySelector("#position").textContent =
-    jobDataObj.job_position.value;
-  jobSelected.querySelector("#link").textContent = jobDataObj.job_link.value;
+    jobDataObj.job_position;
+  jobSelected.querySelector("#link").textContent = jobDataObj.job_link;
 
   // loop through jobs array and job object with new content
   for (var i = 0; i < jobs, length; i++) {
@@ -72,10 +72,6 @@ var createJobHandler = function () {
       status: "In review",
     };
 
-    // testing
-    console.log(jobDataObj);
-    console.dir(jobDataObj.status);
-
     //add task id as a custom attribute
     jobItemEl.setAttribute("data-job-id", jobIdCounter);
 
@@ -100,6 +96,7 @@ var createJobHandler = function () {
 
     //adding 'id' to jobDataObj
     jobDataObj.id = jobIdCounter;
+
     // get the data into the array
     jobs.push(jobDataObj);
 
@@ -191,25 +188,23 @@ var deleteJob = function (jobId) {
   saveJobs();
 };
 
-//Modal edit
-var editJob = function (jobId) {
+// JOB POST EDIT
+var editJob = async function (jobId) {
   //get job list item element
   var jobSelected = document.querySelector(
     ".job-item[data-job-id='" + jobId + "']"
   );
 
   formEl.setAttribute("data-job-id", jobId);
-  console.log(formEl);
+
+  console.log("Selected job info: ", jobSelected);
+  console.log("date posted: ", date_posted);
+  console.log("content in jobdataobj: ", jobDataObj);
 
   //get content from posted date, job link and job position
-  var datePostedModal = jobSelected.querySelector("#date").textContent;
-  jobDataObj.date_posted.value = datePostedModal;
-
-  var jobPositionModal = jobSelected.querySelector("#position").textContent;
-  jobDataObj.job_position.value = jobPositionModal;
-
-  var jobLinkModal = jobSelected.querySelector("#link").textContent;
-  jobDataObj.job_link.value = jobLinkModal;
+  jobSelected.querySelector("#date_posted").textContent = jobDataObj.date_posted;
+  jobSelected.querySelector("#job_position").textContent = jobDataObj.job_position;
+  jobSelected.querySelector("#job_link").textContent = jobDataObj.job_link;
 
   //loop through the job array and add new content from the jobDataObj
   for (var i = 0; i < jobs.length; i++) {
@@ -224,7 +219,7 @@ var editJob = function (jobId) {
 
   console.log("Jobs soon after editing: ", jobs);
 
-  document.querySelector("#add-job").textContent = "Edit post";
+  document.querySelector("#add-job").textContent = "Save post";
 
   saveJobs();
 };
