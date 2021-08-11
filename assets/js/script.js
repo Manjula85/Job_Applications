@@ -169,7 +169,8 @@ var deleteJob = function (jobId) {
   var jobSelected = document.querySelector(
     ".job-item[data-job-id='" + jobId + "']"
   );
-  jobSelected.remove();
+
+  jobSelected.remove();   //This only removes the <li> element
 
   //A new array to update list of tasks
   var updatedJobArr = [];
@@ -177,7 +178,8 @@ var deleteJob = function (jobId) {
   //loop through current jobs
   for (var i = 0; i < jobs.length; i++) {
     //if jobs[i].id doesn't match the value of taskId, let's keep that job and push it into the new array
-    if (jobs[i] !== parseInt(jobId)) {
+    if (jobs[i].id !== parseInt(jobId)) {
+      console.log('Does this ever get executed?');
       updatedJobArr.push(jobs[i]);
     }
   }
