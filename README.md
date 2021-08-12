@@ -1,8 +1,8 @@
 ## Job Applications Management System
 
 ### Table of Contents
-[ Description. ](#overview)
-[ Features. ](#features)
+[ Description. ](#overview) <br />
+[ Features. ](#features) <br />
 [ Technologies used. ](#tech)
 
 <a name="overview"></a>
