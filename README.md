@@ -26,7 +26,7 @@
 
 ## Web page
 
-##### a recorder short clip
+##### record a short clip
 
 ## Relavent links
 
