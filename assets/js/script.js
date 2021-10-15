@@ -12,19 +12,37 @@ var date_posted = document.querySelector("#date_posted");
 var job_position = document.querySelector("#job_position");
 var job_link = document.querySelector("#job_link");
 
-var completeEditJob = function (date_posted, job_position, job_link, jobId) {
+//Data storage
+var jobs = [];
+//Where data is stored
+var jobDataObj;
+
+// MODAL EDIT POST If the post is being editted (so not new) - update
+var completeEditJob = function (jobDataObj, jobId) {
   //find the matching task list item
   var jobSelected = document.querySelector(
     ".job-item[data-job-id='" + jobId + "']"
   );
 
   //set new values
-  jobSelected.querySelector("#date").textContent = date_posted.value;
-  jobSelected.querySelector("#position").textContent = job_position.value;
-  jobSelected.querySelector("#link").textContent = job_link.value;
+  jobSelected.querySelector("#date").textContent = jobDataObj.date_posted;
+  jobSelected.querySelector("#position").textContent =
+    jobDataObj.job_position;
+  jobSelected.querySelector("#link").textContent = jobDataObj.job_link;
+
+  // loop through jobs array and job object with new content
+  for (var i = 0; i < jobs, length; i++) {
+    if (jobs[i].id === parseInt(jobId)) {
+      jobs[i].date_posted = date_posted;
+      jobs[i].job_position = job_position;
+      jobs[i].job_link = job_link;
+    }
+  }
 
   formEl.removeAttribute("data-job-id");
   document.querySelector("#add-job").textContent = "Save";
+
+  saveJobs();
 };
 
 var createJobHandler = function () {
@@ -40,10 +58,20 @@ var createJobHandler = function () {
   //has data attribute, so get job id and call func() to complete edit process
   if (isEdit) {
     var jobId = formEl.getAttribute("data-job-id");
-    completeEditJob(date_posted, job_position, job_link, jobId);
+    completeEditJob(jobDataObj, jobId);
   }
   //no data attribute, so create object as normal and pass data
   else {
+    //This is if it's a new Post
+
+    //setting the collected data to an Obj
+    jobDataObj = {
+      date_posted: date_posted.value,
+      job_position: job_position.value,
+      job_link: job_link.value,
+      status: "In review",
+    };
+
     //add task id as a custom attribute
     jobItemEl.setAttribute("data-job-id", jobIdCounter);
 
@@ -51,20 +79,26 @@ var createJobHandler = function () {
     jobInfoEl.innerHTML =
       "<li class='job-item'> Date posted: " +
       "<span id='date'>" +
-      date_posted.value +
+      jobDataObj.date_posted +
       "</span>" +
       "<br /> Job position: " +
       "<span id='position'>" +
-      job_position.value +
+      jobDataObj.job_position +
       "</span>" +
       "<br /> Job link: " +
       "<span id='link'>" +
-      job_link.value +
+      jobDataObj.job_link +
       "</span>" +
       "</li>";
 
     //adding the innerHTML string with data
     jobItemEl.appendChild(jobInfoEl);
+
+    //adding 'id' to jobDataObj
+    jobDataObj.id = jobIdCounter;
+
+    // get the data into the array
+    jobs.push(jobDataObj);
 
     //adding the edit and delete buttons in
     var jobActionsEl = createJobActions(jobIdCounter);
@@ -75,6 +109,9 @@ var createJobHandler = function () {
 
     //increase job counter for next unique id
     jobIdCounter++;
+
+    // saving the edited part
+    saveJobs();
   }
 };
 
@@ -130,29 +167,61 @@ var deleteJob = function (jobId) {
   var jobSelected = document.querySelector(
     ".job-item[data-job-id='" + jobId + "']"
   );
-  jobSelected.remove();
+
+  jobSelected.remove();   //This only removes the <li> element
+
+  //A new array to update list of tasks
+  var updatedJobArr = [];
+
+  //loop through current jobs
+  for (var i = 0; i < jobs.length; i++) {
+    //if jobs[i].id doesn't match the value of taskId, let's keep that job and push it into the new array
+    if (jobs[i].id !== parseInt(jobId)) {
+      console.log('Does this ever get executed?');
+      updatedJobArr.push(jobs[i]);
+    }
+  }
+
+  //reassign tasks array to be the same as the updatedJobArr
+  jobs = updatedJobArr;
+
+  saveJobs();
 };
 
-var editJob = function (jobId) {
+// JOB POST EDIT
+var editJob = async function (jobId) {
   //get job list item element
   var jobSelected = document.querySelector(
     ".job-item[data-job-id='" + jobId + "']"
   );
 
   formEl.setAttribute("data-job-id", jobId);
-  console.log(formEl);
+
+  console.log("Selected job info: ", jobSelected);
+  console.log("date posted: ", date_posted);
+  console.log("content in jobdataobj: ", jobDataObj);
 
   //get content from posted date, job link and job position
-  var datePostedModal = jobSelected.querySelector("#date").textContent;
-  date_posted.value = datePostedModal;
+  jobSelected.querySelector("#date_posted").textContent = jobDataObj.date_posted;
+  jobSelected.querySelector("#job_position").textContent = jobDataObj.job_position;
+  jobSelected.querySelector("#job_link").textContent = jobDataObj.job_link;
 
-  var jobPositionModal = jobSelected.querySelector("#position").textContent;
-  job_position.value = jobPositionModal;
+  //loop through the job array and add new content from the jobDataObj
+  for (var i = 0; i < jobs.length; i++) {
+    if (jobs[i].id === parseInt(jobId)) {
+      jobs[i].date_posted = jobDataObj.date_posted.value;
+      jobs[i].job_position = jobDataObj.job_position.value;
+      jobs[i].job_link = jobDataObj.job_link.value;
+      /* Extra */
+      //jobs[i].id = parseInt(jobId);
+    }
+  }
 
-  var jobLinkModal = jobSelected.querySelector("#link").textContent;
-  job_link.value = jobLinkModal;
+  console.log("Jobs soon after editing: ", jobs);
 
-  document.querySelector("#add-job").textContent = "Edit post";
+  document.querySelector("#add-job").textContent = "Save post";
+
+  saveJobs();
 };
 
 var jobButtonHandler = function (event) {
@@ -199,6 +268,17 @@ var jobStatusChangeHandler = function (event) {
   } else if (statusValue === "already applied to") {
     jobsAlreadyAppliedToEl.appendChild(jobSelected);
   }
+
+  // update job's in jabs array
+  for (var i = 0; i < jobs.length; i++) {
+    if (jobs[i].id === parseInt(jobId)) {
+      jobs[i].status = statusValue;
+    }
+  }
+
+  console.log("in jobstatuschangehandler(): ", jobs);
+
+  saveJobs();
 };
 
 var dragJobHandler = function (event) {
@@ -209,46 +289,67 @@ var dragJobHandler = function (event) {
 
   //to verify the data was stored
   var getId = event.dataTransfer.getData("text/plain");
-  console.log("getId: ", getId, typeof getId);
 };
 
 var dropZoneDragHandler = function (event) {
   var jobListEl = event.target.closest(".job-list");
   if (jobListEl) {
     event.preventDefault();
-    
-    jobListEl.setAttribute("style", "background: #ffb54f; border-style: dashed;");
+
+    jobListEl.setAttribute(
+      "style",
+      "background: #ffb54f; border-style: dashed;"
+    );
   }
+
+  saveJobs();
 };
 
-var dropJobHandler = function(event){
+var dropJobHandler = function (event) {
   var id = event.dataTransfer.getData("text/plain");
-  var draggableElement = document.querySelector("[data-job-id='"+id+"']");
+  var draggableElement = document.querySelector("[data-job-id='" + id + "']");
 
   var dropZoneEl = event.target.closest(".job-list");
   var statusType = dropZoneEl.id;
 
-  var statusSelectEl = draggableElement.querySelector("select[name='status-change']");
+  var statusSelectEl = draggableElement.querySelector(
+    "select[name='status-change']"
+  );
 
-  if(statusType === "In review"){
+  if (statusType === "jobs-in-review") {
     statusSelectEl.selectedIndex = 0;
-  } else  if(statusType === "Jobs to Apply to"){
+  } else if (statusType === "jobs-to-apply-to") {
     statusSelectEl.selectedIndex = 1;
-  } else if(statusType === "Already applied to"){
+  } else if (statusType === "jobs-already-applied-to") {
     statusSelectEl.selectedIndex = 2;
-  };
+  }
 
   //remove the drag colouring
   dropZoneEl.removeAttribute("style");
 
+  // loop through jobs array to find and update the updated job's status
+  for (var i = 0; i < jobs.length; i++) {
+    if (jobs[i].id === parseInt(id)) {
+      jobs[i].status = statusSelectEl.value.toLowerCase();
+    }
+  }
+
+  console.log("What is being saved here? ", statusSelectEl.value.toLowerCase());
+
   dropZoneEl.appendChild(draggableElement);
+
+  saveJobs();
 };
 
-var dragLeaveHandler = function (event){
+var dragLeaveHandler = function (event) {
   var jobListEl = event.target.closest(".job-list");
-  if (jobListEl){
+  if (jobListEl) {
     jobListEl.removeAttribute("style");
   }
+};
+
+var saveJobs = function () {
+  localStorage.setItem("jobs", JSON.stringify(jobs));
 };
 
 buttonEl.addEventListener("click", createJobHandler);
