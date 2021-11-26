@@ -19,12 +19,7 @@
       <p>Click the button below to add a new job you want to consider!</p>
 
       <!-- Button trigger modal -->
-      <button
-        type="button"
-        class="btn btn-success"
-        data-bs-toggle="modal"
-        data-bs-target="#staticBackdrop"
-      >
+      <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
         Launch static Add Job
       </button>
 
@@ -42,31 +37,17 @@
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title fs-3" id="staticBackdropLabel">Job</h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
               <!-- MODAL body section -->
               <form id="modalForm">
                 <div class="row mb-3">
-                  <label for="exampleFormControlInput1" class="form-label fs-4"
-                    >Date Posted</label
-                  >
-                  <input
-                    type="date"
-                    class="form-control form-control-lg"
-                    id="date_posted"
-                    placeholder="2021/07/29"
-                  />
+                  <label for="exampleFormControlInput1" class="form-label fs-4">Date Posted</label>
+                  <input type="date" class="form-control form-control-lg" id="date_posted" placeholder="2021/07/29" />
                 </div>
                 <div class="row mb-3">
-                  <label for="exampleFormControlInput2" class="form-label fs-4"
-                    >Job Position</label
-                  >
+                  <label for="exampleFormControlInput2" class="form-label fs-4">Job Position</label>
                   <input
                     type="text"
                     class="form-control form-control-lg"
@@ -75,9 +56,7 @@
                   />
                 </div>
                 <div class="row mb-3">
-                  <label for="exampleFormControlInput3" class="form-label fs-4"
-                    >Job link</label
-                  >
+                  <label for="exampleFormControlInput3" class="form-label fs-4">Job link</label>
                   <input
                     type="text"
                     class="form-control form-control-lg"
@@ -88,21 +67,8 @@
               </form>
             </div>
             <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button
-                type="submit"
-                class="btn btn-primary"
-                id="add-job"
-                data-bs-dismiss="modal"
-              >
-                Save
-              </button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary" id="add-job" data-bs-dismiss="modal">Save</button>
             </div>
           </div>
         </div>
@@ -112,28 +78,25 @@
       <!-- Jobs in review section -->
       <section class="job-list-wrapper">
         <h2 class="list-title">In review</h2>
-        <ul class="job-list" id="jobs-in-review">
-        </ul>
+        <ul class="job-list" id="jobs-in-review"></ul>
       </section>
 
       <!-- Jobs in Jobs to Apply to section -->
       <section class="job-list-wrapper">
         <h2 class="list-title">Jobs to Apply to</h2>
-        <ul class="job-list" id="jobs-to-apply-to">
-        </ul>
+        <ul class="job-list" id="jobs-to-apply-to"></ul>
       </section>
 
       <!-- Jobs in Already applied section -->
       <section class="job-list-wrapper">
         <h2 class="list-title">Already applied to</h2>
-        <ul class="job-list" id="jobs-already-applied-to">
-        </ul>
+        <ul class="job-list" id="jobs-already-applied-to"></ul>
       </section>
     </main>
     <footer>&copy;2021 by Manjula Guneratne</footer>
     <!-- jQuery script tag -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
+
     <script src="./assets/js/script.js"></script>
     <!-- Bootstrap stuff -->
     <script
