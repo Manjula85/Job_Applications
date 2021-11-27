@@ -1,26 +1,26 @@
-var jobsInReviewEl = document.querySelector("#jobs-in-review");
-var jobsToApplyToEl = document.querySelector("#jobs-to-apply-to");
-var jobsAlreadyAppliedToEl = document.querySelector("#jobs-already-applied-to");
+let jobsInReviewEl = document.querySelector("#jobs-in-review");
+let jobsToApplyToEl = document.querySelector("#jobs-to-apply-to");
+let jobsAlreadyAppliedToEl = document.querySelector("#jobs-already-applied-to");
 
-var buttonEl = document.querySelector("#add-job");
-var jobIdCounter = 0;
-var pageContentEl = document.querySelector("#page-content");
-var formEl = document.querySelector("#modalForm");
+let buttonEl = document.querySelector("#add-job");
+let jobIdCounter = 0;
+let pageContentEl = document.querySelector("#page-content");
+let formEl = document.querySelector("#modalForm");
 
 //Data collected from the Modal
-var date_posted = document.querySelector("#date_posted");
-var job_position = document.querySelector("#job_position");
-var job_link = document.querySelector("#job_link");
+let date_posted = document.querySelector("#date_posted");
+let job_position = document.querySelector("#job_position");
+let job_link = document.querySelector("#job_link");
 
 //Data storage
-var jobs = [];
+const jobs = [];
 //Where data is stored
-var jobDataObj;
+let jobDataObj;
 
 // MODAL EDIT POST If the post is being editted (so not new) - update
-var completeEditJob = function (jobDataObj, jobId) {
+let completeEditJob = function (jobDataObj, jobId) {
   //find the matching task list item
-  var jobSelected = document.querySelector(
+  let jobSelected = document.querySelector(
     ".job-item[data-job-id='" + jobId + "']"
   );
 
@@ -31,7 +31,7 @@ var completeEditJob = function (jobDataObj, jobId) {
   jobSelected.querySelector("#link").textContent = jobDataObj.job_link;
 
   // loop through jobs array and job object with new content
-  for (var i = 0; i < jobs, length; i++) {
+  for (let i = 0; i < jobs, length; i++) {
     if (jobs[i].id === parseInt(jobId)) {
       jobs[i].date_posted = date_posted;
       jobs[i].job_position = job_position;
@@ -45,19 +45,19 @@ var completeEditJob = function (jobDataObj, jobId) {
   saveJobs();
 };
 
-var createJobHandler = function () {
-  var jobItemEl = document.createElement("li");
+let createJobHandler = function () {
+  let jobItemEl = document.createElement("li");
   jobItemEl.className = "job-item";
 
   //adding draggable
   jobItemEl.setAttribute("draggable", "true");
 
   //Checking if we are editing or creating a new job post
-  var isEdit = formEl.hasAttribute("data-job-id");
+  let isEdit = formEl.hasAttribute("data-job-id");
 
   //has data attribute, so get job id and call func() to complete edit process
   if (isEdit) {
-    var jobId = formEl.getAttribute("data-job-id");
+    let jobId = formEl.getAttribute("data-job-id");
     completeEditJob(jobDataObj, jobId);
   }
   //no data attribute, so create object as normal and pass data
@@ -75,7 +75,7 @@ var createJobHandler = function () {
     //add task id as a custom attribute
     jobItemEl.setAttribute("data-job-id", jobIdCounter);
 
-    var jobInfoEl = document.createElement("div");
+    let jobInfoEl = document.createElement("div");
     jobInfoEl.innerHTML =
       "<li class='job-item'> Date posted: " +
       "<span id='date'>" +
@@ -101,7 +101,7 @@ var createJobHandler = function () {
     jobs.push(jobDataObj);
 
     //adding the edit and delete buttons in
-    var jobActionsEl = createJobActions(jobIdCounter);
+    let jobActionsEl = createJobActions(jobIdCounter);
     jobItemEl.appendChild(jobActionsEl);
 
     // Add the entire item to the list
@@ -115,12 +115,12 @@ var createJobHandler = function () {
   }
 };
 
-var createJobActions = function (jobId) {
-  var actionContainerEl = document.createElement("div");
+let createJobActions = function (jobId) {
+  let actionContainerEl = document.createElement("div");
   actionContainerEl.className = "job-actions";
 
   //create edit button
-  var editButtonEl = document.createElement("button");
+  let editButtonEl = document.createElement("button");
   editButtonEl.textContent = "Edit";
   editButtonEl.className = "btn edit-btn";
   editButtonEl.setAttribute("data-job-id", jobId);
@@ -134,25 +134,25 @@ var createJobActions = function (jobId) {
   actionContainerEl.appendChild(editButtonEl);
 
   //create delete button
-  var deleteButtonEl = document.createElement("button");
+  let deleteButtonEl = document.createElement("button");
   deleteButtonEl.textContent = "Delete";
   deleteButtonEl.className = "btn delete-btn";
   deleteButtonEl.setAttribute("data-job-id", jobId);
 
   actionContainerEl.appendChild(deleteButtonEl);
 
-  var statusSelectEl = document.createElement("select");
+  let statusSelectEl = document.createElement("select");
   statusSelectEl.className = "select-status";
   statusSelectEl.setAttribute("name", "status-change");
   statusSelectEl.setAttribute("data-job-id", jobId);
 
   actionContainerEl.appendChild(statusSelectEl);
 
-  var statusChoices = ["In review", "Jobs to Apply to", "Already applied to"];
+  let statusChoices = ["In review", "Jobs to Apply to", "Already applied to"];
 
-  for (var i = 0; i < statusChoices.length; i++) {
+  for (let i = 0; i < statusChoices.length; i++) {
     //create option element
-    var statusOptionEl = document.createElement("option");
+    let statusOptionEl = document.createElement("option");
     statusOptionEl.textContent = statusChoices[i];
     statusOptionEl.setAttribute("value", statusChoices[i]);
 
@@ -163,18 +163,18 @@ var createJobActions = function (jobId) {
   return actionContainerEl;
 };
 
-var deleteJob = function (jobId) {
-  var jobSelected = document.querySelector(
+let deleteJob = function (jobId) {
+  let jobSelected = document.querySelector(
     ".job-item[data-job-id='" + jobId + "']"
   );
 
   jobSelected.remove();   //This only removes the <li> element
 
   //A new array to update list of tasks
-  var updatedJobArr = [];
+  let updatedJobArr = [];
 
   //loop through current jobs
-  for (var i = 0; i < jobs.length; i++) {
+  for (let i = 0; i < jobs.length; i++) {
     //if jobs[i].id doesn't match the value of taskId, let's keep that job and push it into the new array
     if (jobs[i].id !== parseInt(jobId)) {
       console.log('Does this ever get executed?');
@@ -189,9 +189,9 @@ var deleteJob = function (jobId) {
 };
 
 // JOB POST EDIT
-var editJob = async function (jobId) {
+let editJob = async function (jobId) {
   //get job list item element
-  var jobSelected = document.querySelector(
+  let jobSelected = document.querySelector(
     ".job-item[data-job-id='" + jobId + "']"
   );
 
@@ -207,7 +207,7 @@ var editJob = async function (jobId) {
   jobSelected.querySelector("#job_link").textContent = jobDataObj.job_link;
 
   //loop through the job array and add new content from the jobDataObj
-  for (var i = 0; i < jobs.length; i++) {
+  for (let i = 0; i < jobs.length; i++) {
     if (jobs[i].id === parseInt(jobId)) {
       jobs[i].date_posted = jobDataObj.date_posted.value;
       jobs[i].job_position = jobDataObj.job_position.value;
@@ -224,20 +224,20 @@ var editJob = async function (jobId) {
   saveJobs();
 };
 
-var jobButtonHandler = function (event) {
+let jobButtonHandler = function (event) {
   //get target element from event
-  var targetEl = event.target;
+  let targetEl = event.target;
 
   //edit button was clicked
   if (targetEl.matches(".edit-btn")) {
-    var jobId = targetEl.getAttribute("data-job-id");
+    let jobId = targetEl.getAttribute("data-job-id");
     //console.log('edit button things');
     editJob(jobId);
   }
 
   //delete button was clicked
   if (targetEl.matches(".delete-btn")) {
-    var jobId = targetEl.getAttribute("data-job-id");
+    let jobId = targetEl.getAttribute("data-job-id");
     deleteJob(jobId);
   }
 };
@@ -249,15 +249,15 @@ $(function () {
   });
 });
 
-var jobStatusChangeHandler = function (event) {
+let jobStatusChangeHandler = function (event) {
   //get the job id
-  var jobId = event.target.getAttribute("data-job-id");
+  let jobId = event.target.getAttribute("data-job-id");
 
   //get the currently selected option's value and convert to lowercase
-  var statusValue = event.target.value.toLowerCase();
+  let statusValue = event.target.value.toLowerCase();
 
   //find the parent job item element based on the id
-  var jobSelected = document.querySelector(
+  let jobSelected = document.querySelector(
     ".job-item[data-job-id='" + jobId + "']"
   );
 
@@ -270,7 +270,7 @@ var jobStatusChangeHandler = function (event) {
   }
 
   // update job's in jabs array
-  for (var i = 0; i < jobs.length; i++) {
+  for (let i = 0; i < jobs.length; i++) {
     if (jobs[i].id === parseInt(jobId)) {
       jobs[i].status = statusValue;
     }
@@ -281,18 +281,18 @@ var jobStatusChangeHandler = function (event) {
   saveJobs();
 };
 
-var dragJobHandler = function (event) {
-  var jobId = event.target.getAttribute("data-job-id");
+let dragJobHandler = function (event) {
+  let jobId = event.target.getAttribute("data-job-id");
 
   //storing it here
   event.dataTransfer.setData("text/plain", jobId);
 
   //to verify the data was stored
-  var getId = event.dataTransfer.getData("text/plain");
+  let getId = event.dataTransfer.getData("text/plain");
 };
 
-var dropZoneDragHandler = function (event) {
-  var jobListEl = event.target.closest(".job-list");
+let dropZoneDragHandler = function (event) {
+  let jobListEl = event.target.closest(".job-list");
   if (jobListEl) {
     event.preventDefault();
 
@@ -305,14 +305,14 @@ var dropZoneDragHandler = function (event) {
   saveJobs();
 };
 
-var dropJobHandler = function (event) {
-  var id = event.dataTransfer.getData("text/plain");
-  var draggableElement = document.querySelector("[data-job-id='" + id + "']");
+let dropJobHandler = function (event) {
+  let id = event.dataTransfer.getData("text/plain");
+  let draggableElement = document.querySelector("[data-job-id='" + id + "']");
 
-  var dropZoneEl = event.target.closest(".job-list");
-  var statusType = dropZoneEl.id;
+  let dropZoneEl = event.target.closest(".job-list");
+  let statusType = dropZoneEl.id;
 
-  var statusSelectEl = draggableElement.querySelector(
+  let statusSelectEl = draggableElement.querySelector(
     "select[name='status-change']"
   );
 
@@ -328,7 +328,7 @@ var dropJobHandler = function (event) {
   dropZoneEl.removeAttribute("style");
 
   // loop through jobs array to find and update the updated job's status
-  for (var i = 0; i < jobs.length; i++) {
+  for (let i = 0; i < jobs.length; i++) {
     if (jobs[i].id === parseInt(id)) {
       jobs[i].status = statusSelectEl.value.toLowerCase();
     }
@@ -341,14 +341,14 @@ var dropJobHandler = function (event) {
   saveJobs();
 };
 
-var dragLeaveHandler = function (event) {
-  var jobListEl = event.target.closest(".job-list");
+let dragLeaveHandler = function (event) {
+  let jobListEl = event.target.closest(".job-list");
   if (jobListEl) {
     jobListEl.removeAttribute("style");
   }
 };
 
-var saveJobs = function () {
+let saveJobs = function () {
   localStorage.setItem("jobs", JSON.stringify(jobs));
 };
 
