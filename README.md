@@ -22,9 +22,9 @@
 * CSS
 * JavaScript
 * Bootstrap 5
-* jQuery 
 
 ## Web page
+https://manjula-guneratne.github.io/Job_Applications_Management/
 
 ##### record a short clip
 
