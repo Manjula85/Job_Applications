@@ -22,7 +22,7 @@ https://user-images.githubusercontent.com/55724734/143796523-b67128ca-20e9-4522-
 
 <a name="links"></a>
 ### Web page : [Page-link](https://manjula-guneratne.github.io/Job_Applications_Management/)
-### Github link :[Job Application Management](https://github.com/manjula-guneratne/Job_Applications_Management)
+### Github link : [Job Application Management](https://github.com/manjula-guneratne/Job_Applications_Management)
 
 ### Contribution
 Made with ❤️ by Manjula Guneratne
