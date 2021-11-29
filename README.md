@@ -29,6 +29,11 @@
 ##### record a short clip
 [Clip](https://watch.screencastify.com/v/0pgiHnARYNq1yK39ip2i)
 
+
+https://user-images.githubusercontent.com/55724734/143796523-b67128ca-20e9-4522-99bc-62067473c6d3.mp4
+
+
+
 ## Github links
 [Git hub - Job Application Management](https://github.com/manjula-guneratne/Job_Applications_Management)
 
