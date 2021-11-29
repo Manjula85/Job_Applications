@@ -2,8 +2,8 @@
 
 ### Table of Contents
 [ Description. ](#overview) <br />
-[ Features. ](#features) <br />
-[ Technologies used. ](#tech)
+[ Technologies used. ](#tech) <br />
+[ Links. ](#links)
 
 <a name="overview"></a>
 ### Overview
@@ -20,6 +20,7 @@
 
 https://user-images.githubusercontent.com/55724734/143796523-b67128ca-20e9-4522-99bc-62067473c6d3.mp4
 
+<a name="links"></a>
 ### Web page : [Page-link](https://manjula-guneratne.github.io/Job_Applications_Management/)
 ### Github link :[Job Application Management](https://github.com/manjula-guneratne/Job_Applications_Management)
 
