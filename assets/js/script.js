@@ -17,34 +17,6 @@ const jobs = [];
 //Where data is stored
 let jobDataObj;
 
-// MODAL EDIT POST If the post is being editted (so not new) - update
-let completeEditJob = function (jobDataObj, jobId) {
-  //find the matching task list item
-  let jobSelected = document.querySelector(
-    ".job-item[data-job-id='" + jobId + "']"
-  );
-
-  //set new values
-  jobSelected.querySelector("#date").textContent = jobDataObj.date_posted;
-  jobSelected.querySelector("#position").textContent =
-    jobDataObj.job_position;
-  jobSelected.querySelector("#link").textContent = jobDataObj.job_link;
-
-  // loop through jobs array and job object with new content
-  for (let i = 0; i < jobs, length; i++) {
-    if (jobs[i].id === parseInt(jobId)) {
-      jobs[i].date_posted = date_posted;
-      jobs[i].job_position = job_position;
-      jobs[i].job_link = job_link;
-    }
-  }
-
-  formEl.removeAttribute("data-job-id");
-  document.querySelector("#add-job").textContent = "Save";
-
-  saveJobs();
-};
-
 let createJobHandler = function () {
   let jobItemEl = document.createElement("li");
   jobItemEl.className = "job-item";
@@ -168,7 +140,7 @@ let deleteJob = function (jobId) {
     ".job-item[data-job-id='" + jobId + "']"
   );
 
-  jobSelected.remove();   //This only removes the <li> element
+  jobSelected.remove(); //This only removes the <li> element
 
   //A new array to update list of tasks
   let updatedJobArr = [];
@@ -177,49 +149,13 @@ let deleteJob = function (jobId) {
   for (let i = 0; i < jobs.length; i++) {
     //if jobs[i].id doesn't match the value of taskId, let's keep that job and push it into the new array
     if (jobs[i].id !== parseInt(jobId)) {
-      console.log('Does this ever get executed?');
+      console.log("Does this ever get executed?");
       updatedJobArr.push(jobs[i]);
     }
   }
 
   //reassign tasks array to be the same as the updatedJobArr
   jobs = updatedJobArr;
-
-  saveJobs();
-};
-
-// JOB POST EDIT
-let editJob = async function (jobId) {
-  //get job list item element
-  let jobSelected = document.querySelector(
-    ".job-item[data-job-id='" + jobId + "']"
-  );
-
-  formEl.setAttribute("data-job-id", jobId);
-
-  console.log("Selected job info: ", jobSelected);
-  console.log("date posted: ", date_posted);
-  console.log("content in jobdataobj: ", jobDataObj);
-
-  //get content from posted date, job link and job position
-  jobSelected.querySelector("#date_posted").textContent = jobDataObj.date_posted;
-  jobSelected.querySelector("#job_position").textContent = jobDataObj.job_position;
-  jobSelected.querySelector("#job_link").textContent = jobDataObj.job_link;
-
-  //loop through the job array and add new content from the jobDataObj
-  for (let i = 0; i < jobs.length; i++) {
-    if (jobs[i].id === parseInt(jobId)) {
-      jobs[i].date_posted = jobDataObj.date_posted.value;
-      jobs[i].job_position = jobDataObj.job_position.value;
-      jobs[i].job_link = jobDataObj.job_link.value;
-      /* Extra */
-      //jobs[i].id = parseInt(jobId);
-    }
-  }
-
-  console.log("Jobs soon after editing: ", jobs);
-
-  document.querySelector("#add-job").textContent = "Save post";
 
   saveJobs();
 };
@@ -242,12 +178,12 @@ let jobButtonHandler = function (event) {
   }
 };
 
-//to reset the modal content when it reopens
-$(function () {
-  $(".modal").on("hidden.bs.modal", function () {
-    $(this).find("form").trigger("reset");
-  });
-});
+//to reset the modal content when it reopens --- We don't have jQuery here!!!
+// $(function () {
+//   $(".modal").on("hidden.bs.modal", function () {
+//     $(this).find("form").trigger("reset");
+//   });
+// });
 
 let jobStatusChangeHandler = function (event) {
   //get the job id
@@ -279,6 +215,10 @@ let jobStatusChangeHandler = function (event) {
   console.log("in jobstatuschangehandler(): ", jobs);
 
   saveJobs();
+};
+
+let saveJobs = function () {
+  localStorage.setItem("jobs", JSON.stringify(jobs));
 };
 
 let dragJobHandler = function (event) {
@@ -348,15 +288,11 @@ let dragLeaveHandler = function (event) {
   }
 };
 
-let saveJobs = function () {
-  localStorage.setItem("jobs", JSON.stringify(jobs));
-};
-
-buttonEl.addEventListener("click", createJobHandler);
-pageContentEl.addEventListener("click", jobButtonHandler);
-pageContentEl.addEventListener("change", jobStatusChangeHandler);
-
 pageContentEl.addEventListener("dragstart", dragJobHandler);
 pageContentEl.addEventListener("dragover", dropZoneDragHandler);
 pageContentEl.addEventListener("drop", dropJobHandler);
 pageContentEl.addEventListener("dragleave", dragLeaveHandler);
+
+buttonEl.addEventListener("click", createJobHandler);
+pageContentEl.addEventListener("click", jobButtonHandler);
+pageContentEl.addEventListener("change", jobStatusChangeHandler);
