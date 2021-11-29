@@ -27,10 +27,10 @@
 [Page-link](https://manjula-guneratne.github.io/Job_Applications_Management/)
 
 ##### record a short clip
-[test](https://watch.screencastify.com/v/0pgiHnARYNq1yK39ip2i)
+[Clip](https://watch.screencastify.com/v/0pgiHnARYNq1yK39ip2i)
 
 ## Github links
-[Git hub link](https://github.com/manjula-guneratne/Job_Applications_Management)
+[Git hub - Job Application Management](https://github.com/manjula-guneratne/Job_Applications_Management)
 
 ## Contribution
 Made with ❤️ by Manjula Guneratne
